@@ -1,9 +1,8 @@
 /*Daniel Berzal & Raul Letrado*/
 /**
- * Pagina web que accede a una api para recibir una pregunta de trivia(tarda mucho en acceder pero llega).
+ * Pagina web que accede a una api para recibir una pregunta de trivia.
  * Se muestra la pregunta y depende si se responde bien te lleva a una ruta o a otra con un boton para volver.
  */
-import Axios from "npm:axios";
 import { FreshContext, Handlers, PageProps } from "$fresh/server.ts";
 import Verificar from "../islands/verificar.tsx";
 
@@ -16,15 +15,19 @@ export type Trivia = {
 export const handler: Handlers<Trivia> = {
   GET: async (_req: Request, ctx: FreshContext<unknown, Trivia>) => {
     try {
-      const response = await Axios.get("https://api.api-ninjas.com/v1/trivia", {
+      const response = await fetch("https://api.api-ninjas.com/v1/trivia", {
         headers: {
           "X-Api-Key": "gMuh4ovcjrkpJMCZvS5IHA==y54mQwVAfrKWE3oL",
         },
       });
 
-      const data = response.data;
+      if (!response.ok) {
+        throw new Error(`Error de API: ${response.statusText}`);
+      }
+
+      const data = await response.json();
       console.log("API response:", data); 
-      
+
       if (!data || data.length === 0) {
         throw new Error("No se recibió ninguna pregunta.");
       }
@@ -39,6 +42,7 @@ export const handler: Handlers<Trivia> = {
     }
   },
 };
+
 
 const Page = (props: PageProps<Trivia>) => {
   const { question, answer } = props.data;

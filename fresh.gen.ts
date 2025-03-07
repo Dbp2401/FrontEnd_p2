@@ -6,6 +6,7 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $acierto from "./routes/acierto.tsx";
 import * as $fallo from "./routes/fallo.tsx";
+import * as $index from "./routes/index.tsx";
 import * as $trivia from "./routes/trivia.tsx";
 import * as $verificar from "./islands/verificar.tsx";
 import type { Manifest } from "$fresh/server.ts";
@@ -16,6 +17,7 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/acierto.tsx": $acierto,
     "./routes/fallo.tsx": $fallo,
+    "./routes/index.tsx": $index,
     "./routes/trivia.tsx": $trivia,
   },
   islands: {
